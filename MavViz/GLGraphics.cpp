@@ -4,37 +4,42 @@
 int MavViz::Graphics::loadShader(int shaderType, GLchar* source, unsigned int &shaderObject)
 {
 	GLchar * srctxt = (GLchar *)"";
-	int a = MavViz::IO::loadShaderSource("C:\\MavViz\\Shaders\\vertexShader_basic.glsl", srctxt);
+	int a = MavViz::IO::loadShaderSource(source, srctxt);
 	if (a == -1) return -1;
 	printf("%s\n", srctxt);
 
-	shaderObject = glCreateShader(GL_VERTEX_SHADER);
+	shaderObject = glCreateShader(shaderType);
 	glShaderSource(shaderObject, 1, &srctxt, NULL);
 	glCompileShader(shaderObject);
 	int success;
 	char infoLog[512];
 	glGetShaderiv(shaderObject, GL_COMPILE_STATUS, &success);
+	glGetShaderInfoLog(shaderObject, 512, NULL, infoLog);
 	if (!success)
 	{
-		glGetShaderInfoLog(shaderObject, 512, NULL, infoLog);
 		cout << "ERROR::SHADER::COMPILATION FAILED\n" << infoLog << endl;
 		return -1;
 	}
 }
 
-int MavViz::Graphics::initProg_vert_frag(unsigned int &vertexShader, unsigned int &fragShader, unsigned int &shaderProgram, bool useProg)
+int MavViz::Graphics::initProg_vert_frag(unsigned int &vertexShader, unsigned int &fragShader, unsigned int &shaderProgram)
 {
 	shaderProgram = glCreateProgram();
 	glAttachShader(shaderProgram, vertexShader);
 	glAttachShader(shaderProgram, fragShader);
 	glLinkProgram(shaderProgram);
+
+	int success;
+	char infoLog[512];
+	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+	glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+	if (!success) {
+		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+		return -1;
+	}
+	
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragShader);
-
-	if (useProg)
-	{
-		glUseProgram(shaderProgram);
-	}
 
 	return 0;
 }

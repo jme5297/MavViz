@@ -8,6 +8,6 @@ namespace MavViz
 	{
 		using namespace std;
 		int loadShader(int shaderType, GLchar* source, unsigned int &shaderObject);
-		int initProg_vert_frag(unsigned int &vertexShader, unsigned int &fragShader, unsigned int &shaderProgram, bool useProg);
+		int initProg_vert_frag(unsigned int &vertexShader, unsigned int &fragShader, unsigned int &shaderProgram);
 	}
 }

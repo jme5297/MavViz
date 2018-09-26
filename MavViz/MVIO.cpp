@@ -18,6 +18,7 @@ int MavViz::IO::loadShaderSource(const char * fname, GLchar* source)
 		content.append(line + "\n");
 	}
 
+	content.append("\0");
 	fileStream.close();
 	std::cout << content << std::endl;
 	source = (GLchar*)content.c_str();
