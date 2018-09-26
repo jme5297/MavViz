@@ -10,6 +10,6 @@ namespace MavViz
 {
 	namespace IO
 	{
-		int loadShaderSource(const char * fname, GLchar* source);
+		GLchar* loadShaderSource(const char * fname);
 	}
 }

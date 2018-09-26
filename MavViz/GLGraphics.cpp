@@ -3,9 +3,8 @@
 
 int MavViz::Graphics::loadShader(int shaderType, GLchar* source, unsigned int &shaderObject)
 {
-	GLchar * srctxt = (GLchar *)"";
-	int a = MavViz::IO::loadShaderSource(source, srctxt);
-	if (a == -1) return -1;
+	GLchar* srctxt =  MavViz::IO::loadShaderSource(source);
+	if (srctxt == NULL || strlen(srctxt) == 0) return -1;
 	printf("%s\n", srctxt);
 
 	shaderObject = glCreateShader(shaderType);

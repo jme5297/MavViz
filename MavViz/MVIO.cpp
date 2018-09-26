@@ -1,27 +1,35 @@
 #include "MVIO.h"
 
-int MavViz::IO::loadShaderSource(const char * fname, GLchar* source)
+GLchar* MavViz::IO::loadShaderSource(const char * fname)
 {
-	std::string content;
-	std::ifstream fileStream(fname, std::ios::in);
+	std::ifstream file;
+	file.open(fname, std::ios::in); // opens as ASCII!
+	if (!file) return NULL;
+	if (!file.good()) return NULL;
 
-	if (!fileStream.is_open())
+	unsigned long pos = file.tellg();
+	file.seekg(0, std::ios::end);
+	unsigned long len = file.tellg();
+	file.seekg(std::ios::beg);
+	if (len == 0) return NULL;   // Error: Empty File 
+
+	GLchar* srctxt = (GLchar*) new char[len + 1];
+	if (srctxt == 0) return NULL;   // can't reserve memory
+
+	// len isn't always strlen cause some characters are stripped in ascii read...
+	// it is important to 0-terminate the real length later, len is just max possible value... 
+	srctxt[len] = 0;
+
+	unsigned int i = 0;
+	while (file.good())
 	{
-		std::cerr << "Cout not read file " << fname << ". File does not exist." << std::endl;
-		return -1;
+		srctxt[i] = file.get();       // get character from file.
+		if (!file.eof())
+			i++;
 	}
 
-	std::string line = "";
-	while (!fileStream.eof())
-	{
-		std::getline(fileStream, line);
-		content.append(line + "\n");
-	}
+	srctxt[i] = 0;  // 0-terminate it at the correct position
+	file.close();
 
-	content.append("\0");
-	fileStream.close();
-	std::cout << content << std::endl;
-	source = (GLchar*)content.c_str();
-
-	return 0;
+	return srctxt;
 }
