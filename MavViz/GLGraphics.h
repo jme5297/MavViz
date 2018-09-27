@@ -6,8 +6,34 @@ namespace MavViz
 {
 	namespace Graphics
 	{
-		using namespace std;
-		int loadShader(int shaderType, GLchar* source, unsigned int &shaderObject);
-		int initProg_vert_frag(unsigned int &vertexShader, unsigned int &fragShader, unsigned int &shaderProgram);
+
+		class Shader
+		{
+		public:
+			GLchar* GetLog();
+			int Configure(int shaderType, GLchar* sourceFile);
+			void Delete();
+			int GetID() { return ID; }
+
+		protected:
+			int shaderType;
+			int ID;
+
+			GLchar* source;
+			GLchar* sourceFile;
+		};
+
+		class ShaderProg
+		{
+		public:
+			int Link(Shader * vertShader, Shader * fragShader);
+			void Use();
+
+		protected:
+			int ID;
+			int success;
+			Shader *vertexShader;
+			Shader *fragShader;
+		};
 	}
 }

@@ -2,6 +2,9 @@
 #include "GLGraphics.h"
 #include "MVIO.h"
 
+using MavViz::Graphics::Shader;
+using MavViz::Graphics::ShaderProg;
+
 int main()
 {
 	GLFWwindow * window = MavViz::Graphics::initGLWindow(800, 600);
@@ -13,16 +16,22 @@ int main()
 	};
 
 	/* Load and compile the vertex and fragment shader. */
-	unsigned int vertexShader;
-	GLchar * vsSrc = (GLchar*)"C:\\MavViz\\Shaders\\vertexShader_basic.glsl";
-	if (MavViz::Graphics::loadShader(GL_VERTEX_SHADER, vsSrc, vertexShader) == -1) { std::cin.get(); return -1; }
-
-	unsigned int fragShader;
+	GLchar * vsSrc = (GLchar*)"C:\\MavViz\\Shaders\\vertexShader_basic.glsl"; 
 	GLchar * fsSrc = (GLchar*)"C:\\MavViz\\Shaders\\fragShader_basic.glsl";
-	if (MavViz::Graphics::loadShader(GL_FRAGMENT_SHADER, fsSrc, fragShader) == -1) { std::cin.get(); return -1; }
+	Shader vs;
+	Shader fs;
+	if (vs.Configure(GL_VERTEX_SHADER, vsSrc) != 0 || fs.Configure(GL_FRAGMENT_SHADER, fsSrc) != 0)
+	{
+		std::cout << vs.GetLog() << std::endl << fs.GetLog() << std::endl;
+		return -1;
+	}
 
-	unsigned int shaderProgram;
-	if (MavViz::Graphics::initProg_vert_frag(vertexShader, fragShader, shaderProgram) == -1) { std::cin.get(); return -1; }
+	ShaderProg sp;
+	if (sp.Link(&vs, &fs) != 0)
+	{
+		std::cout << "Linking error.\n";
+		return -1;
+	}
 
 	unsigned int VAO;
 	unsigned int VBO;
@@ -45,7 +54,7 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		/* Draw the triangle. */
-		glUseProgram(shaderProgram);
+		sp.Use();
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 

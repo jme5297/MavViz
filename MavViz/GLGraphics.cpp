@@ -1,44 +1,57 @@
 #include "GLGraphics.h"
 #include "MVIO.h"
 
-int MavViz::Graphics::loadShader(int shaderType, GLchar* source, unsigned int &shaderObject)
-{
-	GLchar* srctxt =  MavViz::IO::loadShaderSource(source);
-	if (srctxt == NULL || strlen(srctxt) == 0) return -1;
-	printf("%s\n", srctxt);
+using namespace std;
+using namespace MavViz::Graphics;
 
-	shaderObject = glCreateShader(shaderType);
-	glShaderSource(shaderObject, 1, &srctxt, NULL);
-	glCompileShader(shaderObject);
+int Shader::Configure(int sType, GLchar* sf)
+{
+	shaderType = sType;
+	sourceFile = sf;
+	source = MavViz::IO::loadShaderSource(sourceFile);
+	if (source == NULL || strlen(source) == 0) return -1;
+	ID = glCreateShader(shaderType);
+	glShaderSource(ID, 1, &source, NULL);
+	glCompileShader(ID);
 	int success;
-	char infoLog[512];
-	glGetShaderiv(shaderObject, GL_COMPILE_STATUS, &success);
-	glGetShaderInfoLog(shaderObject, 512, NULL, infoLog);
-	if (!success)
-	{
-		cout << "ERROR::SHADER::COMPILATION FAILED\n" << infoLog << endl;
-		return -1;
-	}
+	glGetShaderiv(ID, GL_COMPILE_STATUS, &success);
+	if (!success) return -1;
+	return 0;
 }
 
-int MavViz::Graphics::initProg_vert_frag(unsigned int &vertexShader, unsigned int &fragShader, unsigned int &shaderProgram)
+void Shader::Delete()
 {
-	shaderProgram = glCreateProgram();
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragShader);
-	glLinkProgram(shaderProgram);
+	glDeleteShader(ID);
+}
 
-	int success;
-	char infoLog[512];
-	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-	glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-	if (!success) {
-		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
-		return -1;
+GLchar* Shader::GetLog()
+{
+	GLchar infoLog[512];
+	glGetShaderInfoLog(ID, 512, NULL, infoLog);
+	return infoLog;
+}
+
+int ShaderProg::Link(Shader *vs, Shader *fs)
+{
+	vertexShader = vs;
+	fragShader = fs;
+	ID = glCreateProgram();
+	glAttachShader(ID, vertexShader->GetID());
+	glAttachShader(ID, fragShader->GetID());
+	glLinkProgram(ID);
+
+	int success = 0;
+	glGetProgramiv(ID, GL_LINK_STATUS, &success);
+	if (success)
+	{
+		vertexShader->Delete();
+		fragShader->Delete();
+		return 0;
 	}
-	
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragShader);
+	else { return -1;  }
+}
 
-	return 0;
+void ShaderProg::Use()
+{
+	glUseProgram(ID);
 }
