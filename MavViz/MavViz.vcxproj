@@ -152,7 +152,8 @@
     <ClInclude Include="MVIO.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Shaders\fragShader_basic.glsl" />
+    <None Include="..\Shaders\fragShader_blue.glsl" />
+    <None Include="..\Shaders\fragShader_red.glsl" />
     <None Include="..\Shaders\vertexShader_basic.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

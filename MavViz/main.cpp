@@ -9,37 +9,50 @@ int main()
 {
 	GLFWwindow * window = MavViz::Graphics::initGLWindow(800, 600);
 
-	float myTriangle[] = {
-		-0.5f, -0.5f, 0.0f,
-		 0.5f, -0.5f, 0.0f,
-		 0.0f,  0.5f, 0.0f
+	float tLeft[] = {
+		-0.5f, -0.5f, 0.f,
+		-0.5f, 0.5f, 0.f,
+		0.f, -0.5f, 0.f
+	};
+	
+	float tRight[] = {
+		0.f, 0.5f, 0.f,
+		0.5f, 0.5f, 0.f,
+		0.5f, -0.5f, 0.f
 	};
 
 	/* Load and compile the vertex and fragment shader. */
 	GLchar * vsSrc = (GLchar*)"C:\\MavViz\\Shaders\\vertexShader_basic.glsl"; 
-	GLchar * fsSrc = (GLchar*)"C:\\MavViz\\Shaders\\fragShader_basic.glsl";
-	Shader vs;
-	Shader fs;
-	if (vs.Configure(GL_VERTEX_SHADER, vsSrc) != 0 || fs.Configure(GL_FRAGMENT_SHADER, fsSrc) != 0)
+	GLchar * fsSrcR = (GLchar*)"C:\\MavViz\\Shaders\\fragShader_red.glsl";
+	GLchar * fsSrcB = (GLchar*)"C:\\MavViz\\Shaders\\fragShader_blue.glsl";
+	Shader vs, fsR, fsB;
+	if (vs.Configure(GL_VERTEX_SHADER, vsSrc) != 0 || fsR.Configure(GL_FRAGMENT_SHADER, fsSrcR) != 0 || fsB.Configure(GL_FRAGMENT_SHADER, fsSrcB) != 0)
 	{
-		std::cout << vs.GetLog() << std::endl << fs.GetLog() << std::endl;
+		std::cout << vs.GetLog() << std::endl << fsR.GetLog() << std::endl << fsB.GetLog() << std::endl;
 		return -1;
 	}
 
-	ShaderProg sp;
-	if (sp.Link(&vs, &fs) != 0)
+	ShaderProg spR, spB;
+	if (spR.Link(&vs, &fsR) != 0 || spB.Link(&vs, &fsB) != 0)
 	{
 		std::cout << "Linking error.\n";
 		return -1;
 	}
 
-	unsigned int VAO;
-	unsigned int VBO;
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(myTriangle), myTriangle, GL_STATIC_DRAW);
+	unsigned int VAO[2];
+	unsigned int VBO[2];
+	glGenVertexArrays(2, VAO);
+	glGenBuffers(2, VBO);
+
+	glBindVertexArray(VAO[0]);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(tLeft), tLeft, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	glBindVertexArray(VAO[1]);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(tRight), tRight, GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
@@ -54,8 +67,12 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		/* Draw the triangle. */
-		sp.Use();
-		glBindVertexArray(VAO);
+		spR.Use();
+		glBindVertexArray(VAO[0]);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		spB.Use();
+		glBindVertexArray(VAO[1]);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		/* Check events, swap buffers */
