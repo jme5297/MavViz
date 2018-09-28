@@ -15,14 +15,15 @@ int main()
 	/* Create some shaders. */
 	ShaderProg spR((GLchar*)"C:\\MavViz\\Shaders\\vertexShader_basic.vert", (GLchar*)"C:\\MavViz\\Shaders\\fragShader_red.frag");
 	ShaderProg spB((GLchar*)"C:\\MavViz\\Shaders\\vertexShader_basic.vert", (GLchar*)"C:\\MavViz\\Shaders\\fragShader_blue.frag");
-	float verts[] = {
-		-0.5f, -0.5f, 0.f,
-		-0.5f,  0.5f, 0.f,
-		 0.f,  -0.5f, 0.f
+	std::vector<glm::vec3> verts = {
+		{-.5f, -.5f, 0.f},
+		{-.5f,   .5f, 0.f},
+		{ 0.f,  -.5f, 0.f},
+		{ 0.f,  .5f, 0.f},
+		{ .5f,   .5f, 0.f},
+		{ .5f,  -.5f, 0.f}
 	};
-	BasicGeo triangle(verts, sizeof(verts), spR);
-
-	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	BasicGeo triangle(GL_TRIANGLES, verts, spR);
 
 	/* Main render loop */
 	while (!glfwWindowShouldClose(window))
@@ -30,10 +31,18 @@ int main()
 		/* Process user input */
 		MavViz::Graphics::processInput(window);
 
-		printf("%f\n", glfwGetTime());
+		float t = glfwGetTime();
+		printf("%f\n", t);
+		if ( (int)t % 2 == 0)
+		{
+			triangle.SetDrawType(GL_LINES);
+		}else
+		{
+			triangle.SetDrawType(GL_TRIANGLES);
+		}
 
 		/* Rendering commands */
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		triangle.Draw();
