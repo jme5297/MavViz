@@ -33,13 +33,7 @@ int main()
 
 		float t = glfwGetTime();
 		printf("%f\n", t);
-		if ( (int)t % 2 == 0)
-		{
-			triangle.SetDrawType(GL_LINES);
-		}else
-		{
-			triangle.SetDrawType(GL_TRIANGLES);
-		}
+		triangle.SetDrawType(((int)t % 2 == 0) ? GL_LINE_STRIP : GL_TRIANGLES);
 
 		/* Rendering commands */
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
