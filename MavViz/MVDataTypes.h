@@ -19,3 +19,10 @@ struct Vertex3D
 	double y;
 	double z;
 };
+
+struct Triangle
+{
+	Vertex3D v1;
+	Vertex3D v2;
+	Vertex3D v3;
+};

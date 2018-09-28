@@ -139,14 +139,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="glad.c" />
-    <ClCompile Include="GLGraphics.cpp" />
+    <ClCompile Include="GLGeomBasic.cpp" />
+    <ClCompile Include="GLShader.cpp" />
     <ClCompile Include="GLWindow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MVIO.cpp" />
     <ClCompile Include="tutorial.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GLGraphics.h" />
+    <ClInclude Include="GLGeomBasic.h" />
+    <ClInclude Include="GLShader.h" />
     <ClInclude Include="GLWindow.h" />
     <ClInclude Include="MVDataTypes.h" />
     <ClInclude Include="MVIO.h" />

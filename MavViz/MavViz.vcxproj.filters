@@ -27,10 +27,13 @@
     <ClCompile Include="MVIO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GLGraphics.cpp">
+    <ClCompile Include="tutorial.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tutorial.cpp">
+    <ClCompile Include="GLShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GLGeomBasic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,7 +47,10 @@
     <ClInclude Include="MVIO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GLGraphics.h">
+    <ClInclude Include="GLShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GLGeomBasic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -26,14 +26,22 @@ namespace MavViz
 		class ShaderProg
 		{
 		public:
-			int Link(Shader * vertShader, Shader * fragShader);
+			ShaderProg() {};
+			ShaderProg(GLchar * vertShaderSource, GLchar * fragShaderSource);
+
+			int GetID() { return ID; }
+			int Link();
+			int Link(Shader  vertShader, Shader  fragShader);
+			int Link(GLchar * vertShaderSource, GLchar * fragShaderSource);
 			void Use();
+			Shader* GetVertShader() { return &vertexShader; }
+			Shader* GetFragShader() { return &fragmentShader; }
 
 		protected:
 			int ID;
 			int success;
-			Shader *vertexShader;
-			Shader *fragShader;
+			Shader vertexShader;
+			Shader fragmentShader;
 		};
 	}
 }

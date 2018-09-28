@@ -1,4 +1,4 @@
-#include "GLGraphics.h"
+#include "GLShader.h"
 #include "MVIO.h"
 
 using namespace std;
@@ -31,24 +31,41 @@ GLchar* Shader::GetLog()
 	return infoLog;
 }
 
-int ShaderProg::Link(Shader *vs, Shader *fs)
+ShaderProg::ShaderProg(GLchar * vs, GLchar * fs)
 {
-	vertexShader = vs;
-	fragShader = fs;
+	Link(vs, fs);
+}
+
+int ShaderProg::Link(GLchar* vsSrc, GLchar* fsSrc)
+{
+	vertexShader.Configure(GL_VERTEX_SHADER, vsSrc);
+	fragmentShader.Configure(GL_FRAGMENT_SHADER, fsSrc);
+	return Link();
+}
+
+int ShaderProg::Link()
+{
 	ID = glCreateProgram();
-	glAttachShader(ID, vertexShader->GetID());
-	glAttachShader(ID, fragShader->GetID());
+	glAttachShader(ID, vertexShader.GetID());
+	glAttachShader(ID, fragmentShader.GetID());
 	glLinkProgram(ID);
 
 	int success = 0;
 	glGetProgramiv(ID, GL_LINK_STATUS, &success);
 	if (success)
 	{
-		vertexShader->Delete();
-		fragShader->Delete();
+		vertexShader.Delete();
+		fragmentShader.Delete();
 		return 0;
 	}
-	else { return -1;  }
+	else { return -1; }
+}
+
+int ShaderProg::Link(Shader vs, Shader fs)
+{
+	vertexShader = vs;
+	fragmentShader = fs;
+	return Link();
 }
 
 void ShaderProg::Use()

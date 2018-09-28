@@ -1,5 +1,5 @@
 #include "GLWindow.h"
-#include "GLGraphics.h"
+#include "GLShader.h"
 #include "MVIO.h"
 
 using MavViz::Graphics::Shader;
@@ -21,24 +21,12 @@ int main()
 		0.5f, -0.5f, 0.f
 	};
 
-	/* Load and compile the vertex and fragment shader. */
-	GLchar * vsSrc = (GLchar*)"C:\\MavViz\\Shaders\\vertexShader_basic.vert"; 
-	GLchar * fsSrcR = (GLchar*)"C:\\MavViz\\Shaders\\fragShader_red.frag";
-	GLchar * fsSrcB = (GLchar*)"C:\\MavViz\\Shaders\\fragShader_blue.frag";
-	Shader vs, fsR, fsB;
-	if (vs.Configure(GL_VERTEX_SHADER, vsSrc) != 0 || fsR.Configure(GL_FRAGMENT_SHADER, fsSrcR) != 0 || fsB.Configure(GL_FRAGMENT_SHADER, fsSrcB) != 0)
-	{
-		std::cout << vs.GetLog() << std::endl << fsR.GetLog() << std::endl << fsB.GetLog() << std::endl;
-		return -1;
-	}
+	ShaderProg spR((GLchar*)"C:\\MavViz\\Shaders\\vertexShader_basic.vert", (GLchar*)"C:\\MavViz\\Shaders\\fragShader_red.frag");
+	ShaderProg spB((GLchar*)"C:\\MavViz\\Shaders\\vertexShader_basic.vert", (GLchar*)"C:\\MavViz\\Shaders\\fragShader_blue.frag");
 
-	ShaderProg spR, spB;
-	if (spR.Link(&vs, &fsR) != 0 || spB.Link(&vs, &fsB) != 0)
-	{
-		std::cout << "Linking error.\n";
-		return -1;
-	}
 
+	// This should all be updated.
+	/*
 	unsigned int VAO[2];
 	unsigned int VBO[2];
 	glGenVertexArrays(2, VAO);
@@ -57,6 +45,7 @@ int main()
 	glEnableVertexAttribArray(0);
 
 	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	*/
 
 	/* Main render loop */
 	while (!glfwWindowShouldClose(window))
