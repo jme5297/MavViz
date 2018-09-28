@@ -12,18 +12,15 @@ int main()
 	GLFWwindow * window = MavViz::Graphics::initGLWindow(800, 600);
 
 	/* Create a triangle. */
-	/* Create some shaders. */
-	ShaderProg spR((GLchar*)"C:\\MavViz\\Shaders\\vertexShader_basic.vert", (GLchar*)"C:\\MavViz\\Shaders\\fragShader_red.frag");
-	ShaderProg spB((GLchar*)"C:\\MavViz\\Shaders\\vertexShader_basic.vert", (GLchar*)"C:\\MavViz\\Shaders\\fragShader_blue.frag");
-	std::vector<glm::vec3> verts = {
-		{-.5f, -.5f, 0.f},
-		{-.5f,   .5f, 0.f},
-		{ 0.f,  -.5f, 0.f},
-		{ 0.f,  .5f, 0.f},
-		{ .5f,   .5f, 0.f},
-		{ .5f,  -.5f, 0.f}
-	};
-	BasicGeo triangle(GL_TRIANGLES, verts, spR);
+	BasicGeo triangle(
+		GL_TRIANGLES, 
+		std::vector<glm::vec3>{
+			{-.7f, -.7f, 0.f},
+			{ -.7f,  .7f, 0.f },
+			{ .7f,  0.f, 0.f }
+		},
+		ShaderProg((GLchar*)"C:\\MavViz\\Shaders\\vertexShader_basic.vert", (GLchar*)"C:\\MavViz\\Shaders\\rainbow.frag")
+	);
 
 	/* Main render loop */
 	while (!glfwWindowShouldClose(window))

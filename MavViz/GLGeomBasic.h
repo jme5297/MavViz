@@ -19,6 +19,7 @@ namespace MavViz
 				void Draw();
 				void Clean();
 				void SetDrawType(int dType) { drawType = dType; }
+				ShaderProg* GetShader() { return &shaderProg; }
 
 			protected:
 				ShaderProg shaderProg;
