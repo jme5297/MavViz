@@ -8,19 +8,21 @@ namespace MavViz
 	{
 		namespace Geometry
 		{
-			class Triangle
+
+			class BasicGeo
 			{
 			public:
-				Triangle();
-				Triangle(float * vertices);
-				Triangle(float * vertices, int VBO, int VAO);
+				BasicGeo() {};
+				BasicGeo(float * vertices, int sz, ShaderProg sp);
 
-				SetShaderProg(ShaderProg sp);
-				Draw();
+				//SetShaderProg(ShaderProg sp);
+				void Draw();
 
 			protected:
+				ShaderProg shaderProg;
 				unsigned int VBO;
 				unsigned int VAO;
+				float vertices[];
 
 			};
 		}
