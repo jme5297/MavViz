@@ -22,9 +22,9 @@ int main()
 	};
 
 	/* Load and compile the vertex and fragment shader. */
-	GLchar * vsSrc = (GLchar*)"C:\\MavViz\\Shaders\\vertexShader_basic.glsl"; 
-	GLchar * fsSrcR = (GLchar*)"C:\\MavViz\\Shaders\\fragShader_red.glsl";
-	GLchar * fsSrcB = (GLchar*)"C:\\MavViz\\Shaders\\fragShader_blue.glsl";
+	GLchar * vsSrc = (GLchar*)"C:\\MavViz\\Shaders\\vertexShader_basic.vert"; 
+	GLchar * fsSrcR = (GLchar*)"C:\\MavViz\\Shaders\\fragShader_red.frag";
+	GLchar * fsSrcB = (GLchar*)"C:\\MavViz\\Shaders\\fragShader_blue.frag";
 	Shader vs, fsR, fsB;
 	if (vs.Configure(GL_VERTEX_SHADER, vsSrc) != 0 || fsR.Configure(GL_FRAGMENT_SHADER, fsSrcR) != 0 || fsB.Configure(GL_FRAGMENT_SHADER, fsSrcB) != 0)
 	{
@@ -56,7 +56,7 @@ int main()
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	/* Main render loop */
 	while (!glfwWindowShouldClose(window))

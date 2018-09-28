@@ -49,13 +49,13 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Shaders\vertexShader_basic.glsl">
+    <None Include="..\Shaders\fragShader_blue.frag">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\Shaders\fragShader_blue.glsl">
+    <None Include="..\Shaders\fragShader_red.frag">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\Shaders\fragShader_red.glsl">
+    <None Include="..\Shaders\vertexShader_basic.vert">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

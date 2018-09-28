@@ -78,12 +78,12 @@
     <LibraryPath>C:\glfw-3.2.1\build\src\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(GLFW_INCDIR);$(GLAD_INCDIR);$(IncludePath)</IncludePath>
-    <LibraryPath>$(GLFW_LIBDIR);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(OPENGL_INCDIR);$(IncludePath)</IncludePath>
+    <LibraryPath>$(OPENGL_LIBDIR);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\glfw-3.2.1\include;C:\glad\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\glfw-3.2.1\build\src\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(OPENGL_INCDIR);$(IncludePath)</IncludePath>
+    <LibraryPath>$(OPENGL_LIBDIR);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -152,9 +152,9 @@
     <ClInclude Include="MVIO.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Shaders\fragShader_blue.glsl" />
-    <None Include="..\Shaders\fragShader_red.glsl" />
-    <None Include="..\Shaders\vertexShader_basic.glsl" />
+    <None Include="..\Shaders\fragShader_blue.frag" />
+    <None Include="..\Shaders\fragShader_red.frag" />
+    <None Include="..\Shaders\vertexShader_basic.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
